@@ -1,4 +1,5 @@
-```CREATE TABLE 'deliveries' (
+```
+CREATE TABLE 'deliveries' (
   'deliveryID' int PRIMARY KEY AUTO_INCREMENT,
   'recieved' timestamp,
   'numberSingles' int,
