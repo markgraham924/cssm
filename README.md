@@ -1,4 +1,4 @@
-`CREATE TABLE 'deliveries' (
+```CREATE TABLE 'deliveries' (
   'deliveryID' int PRIMARY KEY AUTO_INCREMENT,
   'recieved' timestamp,
   'numberSingles' int,
@@ -74,4 +74,4 @@ ALTER TABLE 'deliveries_item' ADD FOREIGN KEY ('productID') REFERENCES 'products
 ALTER TABLE 'stockFile' ADD FOREIGN KEY ('productID') REFERENCES 'products' ('productID');
 
 ALTER TABLE 'stockFile' ADD FOREIGN KEY ('statusID') REFERENCES 'statusTypes' ('statusID');
-`
+```
