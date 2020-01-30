@@ -9,49 +9,49 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // get database connection
 include_once '../config/database.php';
  
-// instantiate product object
-include_once '../objects/product.php';
+// instantiate stockFile object
+include_once '../objects/stock.php';
  
 $database = new Database();
 $db = $database->getConnection();
  
-$product = new Product($db);
+$stock = new Stock($db);
  
 // get posted data
-$upc = $_POST["upc"];
-$pname = $_POST["pname"];
-$price = $_POST["price"];
+$productID = $_POST["productID"];
+$stockPosition = $_POST["stockPosition"];
+$statusID = $_POST["statusID"];
  
 // make sure data is not empty
 if(
-    !empty($upc) &&
-    !empty($pname) &&
-    !empty($price)
+    !empty($productID) &&
+    !empty($stockPosition) &&
+    !empty($statusID)
 ){
  
-    // set product property values
-    $product->upc = $upc;
-    $product->pname = $pname;
-    $product->price = $price;
+    // set stock property values
+    $stock->productID = $productID;
+    $stock->stockPosition = $stockPosition;
+    $stock->statusID = $statusID;
  
-    // create the product
-    if($product->create()){
+    // create the stock
+    if($stock->create()){
  
         // set response code - 201 created
         http_response_code(201);
  
         // tell the user
-        echo json_encode(array("message" => "Product was created."));
+        echo json_encode(array("message" => "Product was created in stockFile."));
     }
  
-    // if unable to create the product, tell the user
+    // if unable to create the stock, tell the user
     else{
  
         // set response code - 503 service unavailable
         http_response_code(503);
  
         // tell the user
-        echo json_encode(array("message" => "Unable to create product."));
+        echo json_encode(array("message" => "Unable to create product in stockFile."));
     }
 }
  
@@ -62,6 +62,6 @@ else{
     http_response_code(400);
  
     // tell the user
-    echo json_encode(array("message" => "Unable to create product. Data is incomplete."));
+    echo json_encode(array("message" => "Unable to create product in stockFile. Data is incomplete."));
 }
 ?>
