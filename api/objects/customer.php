@@ -1,22 +1,21 @@
 <?php
-class Product{
+class Customer{
     private $conn;
-    private $table_name = "products";
+    private $table_name = "customers";
  
     public $id;
-    public $upc;
-    public $pname;
-    public $price;
+    public $name;
+    public $caddress;
 
     public function __construct($db){
         $this->conn = $db;
     }
 
-    // read products with pagination
+    // read customers with pagination
     public function readPaging($from_record_num, $records_per_page){
     
         // select query
-        $query = "SELECT id, pname, price, upc FROM products LIMIT ?, ?";
+        $query = "SELECT id, cname, caddress FROM customers LIMIT ?, ?";
     
         // prepare query statement
         $stmt = $this->conn->prepare( $query );
@@ -31,9 +30,9 @@ class Product{
         // return values from database
         return $stmt;
     }
-    // used for paging products
+    // used for paging customers
     public function count(){
-        $query = "SELECT COUNT(*) as total_rows FROM products";
+        $query = "SELECT COUNT(*) as total_rows FROM customers";
     
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();
@@ -42,11 +41,11 @@ class Product{
         return $row['total_rows'];
     }
 
-    // read products
+    // read customers
     function read(){
     
-        // select `all query
-        $query = "SELECT id, upc, pname, price FROM " . $this->table_name;
+        // select all query
+        $query = "SELECT id, cname, caddress FROM " . $this->table_name;
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -57,16 +56,15 @@ class Product{
         return $stmt;
     }
 
-    // create product
+    // create customers
     function create(){
 
         // sanitize
-        $this->pname=htmlspecialchars(strip_tags($this->pname));
-        $this->upc=htmlspecialchars(strip_tags($this->upc));
-        $this->price=htmlspecialchars(strip_tags($this->price));
+        $this->cname=htmlspecialchars(strip_tags($this->cname));
+        $this->caddress=htmlspecialchars(strip_tags($this->caddress));
     
         // query to insert record
-        $query = "INSERT INTO products (pname, upc, price) VALUES ('$this->pname', '$this->upc', '$this->price') ";
+        $query = "INSERT INTO customers (cname, caddress) VALUES ('$this->cname', '$this->caddress') ";
             
         // prepare query
         $stmt = $this->conn->prepare($query);        
@@ -79,11 +77,11 @@ class Product{
         return false;
         
     }
-    // used when filling up the update product form
+    // used when filling up the update customers form
     function readOne(){
     
         // query to read single record
-        $query = "SELECT id, upc, pname, price FROM products WHERE id = '$this->id' LIMIT 0,1";
+        $query = "SELECT id, cname, caddress FROM customers WHERE id = '$this->id' LIMIT 0,1";
     
         // prepare query statement
         $stmt = $this->conn->prepare( $query );
@@ -98,21 +96,19 @@ class Product{
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
     
         // set values to object properties
-        $this->name = $row['pname'];
-        $this->price = $row['price'];
-        $this->description = $row['upc'];
+        $this->name = $row['cname'];
+        $this->caddress = $row['caddress'];
     }
-    // update the product
+    // update the customers
     function update(){
 
         // sanitize
         $this->id=htmlspecialchars(strip_tags($this->id));
-        $this->pname=htmlspecialchars(strip_tags($this->pname));
-        $this->price=htmlspecialchars(strip_tags($this->price));
-        $this->upc=htmlspecialchars(strip_tags($this->upc));
-    
+        $this->cname=htmlspecialchars(strip_tags($this->cname));
+        $this->caddress=htmlspecialchars(strip_tags($this->caddress));
+
         // update query
-        $query = "UPDATE products SET pname = '$this->pname', price = $this->price, upc = $this->upc WHERE id = '$this->id'";
+        $query = "UPDATE customers SET cname = '$this->cname', caddress = '$this->caddress' WHERE id = '$this->id'";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
@@ -124,14 +120,14 @@ class Product{
     
         return false;
     }
-    // delete the product
+    // delete the customers
     function delete(){
     
         // sanitize
         $this->id=htmlspecialchars(strip_tags($this->id));
 
         // delete query
-        $query = "DELETE FROM products WHERE id = '$this->id'";
+        $query = "DELETE FROM customers WHERE id = '$this->id'";
 
         // prepare query
         $stmt = $this->conn->prepare($query);
@@ -144,7 +140,7 @@ class Product{
         return false;
         
     }
-    // search products
+    // search customers
     function search($keywords){
 
         // sanitize
@@ -152,7 +148,7 @@ class Product{
         $keywords = "%$keywords%";
             
         // select all query
-        $query = "SELECT id, pname, upc, price FROM products WHERE pname LIKE '$keywords' OR upc LIKE '$keywords' OR price LIKE '$keywords'";
+        $query = "SELECT id, cname, caddress FROM customers WHERE cname LIKE '$keywords' OR caddress LIKE '$keywords'";
     
         // prepare query statement
         $stmt = $this->conn->prepare($query);
