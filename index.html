@@ -15,7 +15,7 @@
     <body>
         <!-- navbar -->
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#">CSSM</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -23,6 +23,7 @@
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="#" id='home'>Home</a>
                     <a class="nav-item nav-link" href="#" id='update_account'>Account</a>
+                    <a class="nav-item nav-link" href="app.html" id='product'>Product</a>
                     <a class="nav-item nav-link" href="#" id='logout'>Logout</a>
                     <a class="nav-item nav-link" href="#" id='login'>Login</a>
                     <a class="nav-item nav-link" href="#" id='sign_up'>Sign Up</a>
@@ -125,31 +126,31 @@
 
                 // show login page
                 function showLoginPage(){
-                
-                // remove jwt
-                setCookie("jwt", "", 1);
+                    
+                    // remove jwt
+                    setCookie("jwt", "", 1);
 
-                // login page html
-                var html = `
-                    <h2>Login</h2>
-                    <form id='login_form'>
-                        <div class='form-group'>
-                            <label for='email'>Email address</label>
-                            <input type='email' class='form-control' id='email' name='email' placeholder='Enter email'>
-                        </div>
+                    // login page html
+                    var html = `
+                        <h2>Login</h2>
+                        <form id='login_form'>
+                            <div class='form-group'>
+                                <label for='email'>Email address</label>
+                                <input type='email' class='form-control' id='email' name='email' placeholder='Enter email'>
+                            </div>
 
-                        <div class='form-group'>
-                            <label for='password'>Password</label>
-                            <input type='password' class='form-control' id='password' name='password' placeholder='Password'>
-                        </div>
+                            <div class='form-group'>
+                                <label for='password'>Password</label>
+                                <input type='password' class='form-control' id='password' name='password' placeholder='Password'>
+                            </div>
 
-                        <button type='submit' class='btn btn-primary'>Login</button>
-                    </form>
-                    `;
+                            <button type='submit' class='btn btn-primary'>Login</button>
+                        </form>
+                        `;
 
-                $('#content').html(html);
-                clearResponse();
-                showLoggedOutMenu();
+                    $('#content').html(html);
+                    clearResponse();
+                    showLoggedOutMenu();
                 }
 
                 // function to set cookie
@@ -166,33 +167,33 @@
                     $("#login, #sign_up").show();
                     $("#logout").hide();
                 }
-                
+                    
                 // show home page
                 function showHomePage(){
-                
-                // validate jwt to verify access
-                var jwt = getCookie('jwt');
-                $.post("api/validate_token.php", JSON.stringify({ jwt:jwt })).done(function(result) {
-                    // if valid, show homepage
-                    var html = `
-                        <div class="card">
-                            <div class="card-header">Welcome to Home!</div>
-                            <div class="card-body">
-                                <h5 class="card-title">You are logged in.</h5>
-                                <p class="card-text">You won't be able to access the home and account pages if you are not logged in.</p>
+                    // validate jwt to verify access
+                    var jwt = getCookie('jwt');
+                    $.post("api/validate_token.php", JSON.stringify({ jwt:jwt })).done(function(result) {
+                        // if valid, show homepage
+                        var html = `
+                            <div class="card">
+                                <div class="card-header">Welcome to Home!</div>
+                                <div class="card-body">
+                                    <h5 class="card-title">You are logged in.</h5>
+                                    <p class="card-text">You won't be able to access the home and account pages if you are not logged in.</p>
+                                </div>
                             </div>
-                        </div>
-                        `;
-                    
-                    $('#content').html(html);
-                    showLoggedInMenu();
-                })
-                // show login page on error
-                .fail(function(result){
-                    showLoginPage();
-                    $('#response').html("<div class='alert alert-danger'>Please login to access the home page.</div>");
-                });
+                            `;
+                        
+                        $('#content').html(html);
+                        showLoggedInMenu();
+                    })
+                    // show login page on error
+                    .fail(function(result){
+                        showLoginPage();
+                        $('#response').html("<div class='alert alert-danger'>Please login to access the home page.</div>");
+                    });
                 }
+
 
                 // get or read cookie
                 function getCookie(cname){
@@ -364,7 +365,7 @@
                     showLoginPage();
                     $('#response').html("<div class='alert alert-info'>You are logged out.</div>");
                 });
-                
+
                 // function to make form values to json format
                 $.fn.serializeObject = function(){
                 
@@ -383,6 +384,6 @@
                 return o;
                 };
             });
-            </script>
+        </script>
     </body>
 </html>
