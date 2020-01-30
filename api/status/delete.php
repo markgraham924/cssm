@@ -17,10 +17,10 @@ $db = $database->getConnection();
 // prepare status object
 $status = new Status($db);
  
-// set product id to be deleted
+// set status id to be deleted
 $status->statusID = $_POST["statusID"];
  
-// delete the product status file
+// delete the status
 if($status->delete()){
  
     // set response code - 200 ok
@@ -37,6 +37,6 @@ else{
     http_response_code(503);
  
     // tell the user
-    echo json_encode(array("message" => "Unable to delete status."));
+    echo json_encode(array("message" => "Unable to delete the status."));
 }
 ?>

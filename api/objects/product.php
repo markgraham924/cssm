@@ -57,6 +57,24 @@ class Product{
         return $stmt;
     }
 
+    //stock enquiry
+    function stockEnquiry($upc){
+        //sanitize input
+        $upc=htmlspecialchars(strip_tags($upc));
+
+        //query to select records
+        $query = "SELECT products.upc, products.pname, stockFile.stockPosition, statusTypes.statusName, statusTypes.statusColour FROM ((products INNER JOIN stockFile ON products.id=stockFile.productID) INNER JOIN statusTypes ON statusTypes.statusID=stockFile.statusID) WHERE products.upc LIKE '%$upc%'";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+    
+        // execute query
+        $stmt->execute();
+    
+        return $stmt;
+
+    }
+
     // create product
     function create(){
 
